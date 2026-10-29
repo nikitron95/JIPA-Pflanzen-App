@@ -2,6 +2,7 @@ import express from 'express';
 import pool from './db.js'
 
 const app = express();
+app.use(express.json());
 
 app.get('/health', (req, res) => {
     res.json({status: 'ok'})
@@ -21,7 +22,7 @@ app.get('/api/pflanzen', (req, res) => {
 
 app.get('/api/pflanzen/:id', (req, res) => {
     const id = req.params.id;
-    pool.query('SELECT * FROM pflanze WHERE id = ?', [id], (error, results) => {
+    pool.query('SELECT * FROM pflanzen WHERE id = ?', [id], (error, results) => {
         if(error){
             console.error(error);
             return res.status(500).json({
@@ -37,6 +38,40 @@ app.get('/api/pflanzen/:id', (req, res) => {
         res.json(results[0]);
     })
 });
+
+app.post('/api/pflanzen', (req, res) => {
+    console.log('POST-Anfrage angekommen');
+    const pflanze = req.body;
+    pool.query('INSERT INTO pflanzen (name, substrat, standort_licht, bemerkungen, kategorie_id, giessen_id) VALUES (?, ?, ?, ?, ?, ?)', 
+        [
+            pflanze.name,
+            pflanze.substrat,
+            pflanze.standort_licht,
+            pflanze.bemerkungen,
+            pflanze.kategorie_id,
+            pflanze.giessen_id
+        ], 
+        (error, results) => {
+        if(error){
+            console.error(error);
+            return res.status(500).json({
+                message: 'Datenbankfehler'
+            });
+        }
+        res.status(201).json({
+            message: 'Pflanze erfolgreich erstellt',
+            id: results.insertId
+        })  
+    })
+})
+
+app.put('/api/pflanzen/:id', (req, res) =>{
+    const id = req.params.id;
+    const pflanze = req.body;
+        pool.query('SELECT * FROM pflanzen WHERE id = ?', [id], (error, results) => {
+
+    })
+})
 
 export default app;
 
