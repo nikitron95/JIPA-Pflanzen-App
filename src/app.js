@@ -1,5 +1,5 @@
 import express from 'express';
-import pool from './db.js'
+import pflanzenRoutes from './routes/pflanzen.routes.js';
 
 const app = express();
 app.use(express.json());
@@ -7,6 +7,14 @@ app.use(express.json());
 app.get('/health', (req, res) => {
     res.json({status: 'ok'})
 });
+
+app.use('/api/pflanzen', pflanzenRoutes);
+app.get('/api/pflanzen/:id', pflanzenRoutes)
+
+export default app;
+
+/*
+import pool from './db.js'
 
 app.get('/api/pflanzen', (req, res) => {
     pool.query('SELECT * FROM pflanzen', (error, results) => {
@@ -106,5 +114,5 @@ app.delete('/api/pflanzen/:id', (req, res) => {
 });
 
 export default app;
-
+*/
 
