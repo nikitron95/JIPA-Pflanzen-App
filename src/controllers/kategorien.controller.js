@@ -69,15 +69,15 @@ export const putKategorien = (req, res) =>{
             });
         }
         if(results.affectedRows === 0){
-            return res.status(404).json({ message: 'Giessangabe nicht gefunden'});
+            return res.status(404).json({ message: 'Kategorie nicht gefunden'});
         }
-        res.status(200).json({ message: 'Giessangabe erfolgreich aktualisiert' });
+        res.status(200).json({ message: 'Kategorie erfolgreich aktualisiert' });
     });
 };
 
 export const deleteKategorien = (req, res) => {
     const id = req.params.id;
-    pool.query('DELETE FROM giessen WHERE id = ?',[id], (error, results) => {
+    pool.query('DELETE FROM kategorien WHERE id = ?',[id], (error, results) => {
         if(error){
             return res.status(500).json({
                 message: 'Datenbankfehler'

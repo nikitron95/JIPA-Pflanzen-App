@@ -14,6 +14,6 @@ app.get('/health', (req, res) => {
 
 app.use('/api/pflanzen', pflanzenRoutes);
 app.use('/api/giessen', giessenRoutes);
-app.use('/api/giessen', kategorienRoutes);
+app.use('/api/kategorien', kategorienRoutes);
 
 export default app;
